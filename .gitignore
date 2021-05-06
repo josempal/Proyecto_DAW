@@ -1,0 +1,39 @@
+# Django
+**/__pycache__
+*.pyc
+.env
+
+# Notas y otros
+notas.md
+tokens.json
+
+# Visual Studio Code #
+.vscode/*
+
+# Migrations
+*/migrations/
+
+# local settings
+local_settings.py
+
+# Virtual environment
+env/
+venv/
+.python-version
+lib64
+pyvenv.cfg
+bin/
+
+# Pycharm files
+.idea
+
+# Logs
+logs/
+*.log
+
+#Django
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media

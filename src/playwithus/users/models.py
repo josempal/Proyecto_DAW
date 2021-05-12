@@ -9,5 +9,10 @@ class Profile(models.Model):
     """
     displayname = models.CharField(max_length=150, blank=True, null=True)
     photo = models.ImageField(upload_to='users/pictures', blank=True, null=True)
+    is_group = models.BooleanField
     updated = models.DateTimeField(auto_now=True)
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='profile')
+
+    def __str__(self):
+        """Return username."""
+        return self.user.username

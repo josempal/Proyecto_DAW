@@ -28,4 +28,4 @@ class Experience(models.Model):
     duration = models.CharField(max_length=150, choices=DURATION)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    creator = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='comments')
+    creator = models.ForeignKey(User, on_delete=models.PROTECT, related_name='experiences')

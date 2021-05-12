@@ -11,7 +11,7 @@ tokens.json
 .vscode/*
 
 # Migrations
-*/migrations/
+*/migrations/*
 
 # local settings
 local_settings.py

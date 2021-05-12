@@ -8,4 +8,4 @@ class Mail(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     from_user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='mails_sent')
     to_user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='mails_received')
-    parent_message = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='mails_child')
+    parent_message = models.ForeignKey('self', null=True, on_delete=models.DO_NOTHING, related_name='mails_child')

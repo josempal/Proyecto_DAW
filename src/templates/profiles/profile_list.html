@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Perfiles{% endblock %}
+
+{% block content %}
+    <h2>Resultados</h2>
+    {% for profile in object_list %}
+        <div class="row justify-content-center">
+            <ul class="list-group-horizontal" width="100%">
+                <div class="col-4">
+                    <li class="list-group-item">
+                        <img class="img-fluid" src="{{ profile.photo.url }}"/>
+                    </li>
+                </div>
+                <div class="col-8">
+                    <li class="list-group-item">
+                        <a href="{{ profile.get_absolute_url }}">{{ profile.displayname }}</a>
+                    </li>
+                    {% if profile.bio is None %}
+                        <li class="list-group-item"></li>
+                    {% endif %}
+                </div>
+            </ul>
+        </div>
+    {% endfor %}
+
+{% endblock %}

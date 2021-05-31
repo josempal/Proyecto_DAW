@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo:wght@500&family=Montserrat&display=swap');
+
+body {
+    padding-top: 56px;
+}
+
+.navbar-brand {
+
+    font-family: 'Montserrat', sans-serif;
+}
+
+.nav-link {
+
+    font-family: 'Exo', sans-serif;
+}
+
+.fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+}

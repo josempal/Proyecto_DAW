@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+
+  {% include "_modal.html" %}
+  
+  <div class="row my-4"> 
+      <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="mx-auto mb-4">
+            <img src="../media/index/main-index.jpg" class"img-fluid" alt="main-index" style="height: auto; max-width: 100%;"/>
+          </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Saepe nostrum ullam eveniet pariatur voluptates odit, fuga
+          atque ea nobis sit soluta odio, adipisci quas excepturi maxime
+          quae totam ducimus consectetur?</p>
+          <br>
+          
+      </div>
+  </div>
+{% endblock %}
+
+{% block extrascripts %}
+  <script type="text/javascript">
+      $(function () {
+          // Login
+          $("#register").modalForm({
+            formURL: "{% url 'users:register' %}"
+          });
+      });
+  </script>
+{% endblock %}

@@ -10,9 +10,6 @@ tokens.json
 # Visual Studio Code #
 .vscode/*
 
-# Migrations
-*/migrations/*
-
 # local settings
 local_settings.py
 
@@ -37,3 +34,4 @@ logs/
 __pycache__
 db.sqlite3
 media
+mountain

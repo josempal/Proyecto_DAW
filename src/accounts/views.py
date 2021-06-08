@@ -2,7 +2,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import views as auth_views
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, View
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
@@ -10,7 +10,6 @@ from django.db.models import Count
 from .forms import SignupForm
 from .models import Profile
 # 3rd party
-from bootstrap_modal_forms.generic import BSModalLoginView
 
 class ProfileListView(LoginRequiredMixin, ListView):
     """
@@ -32,10 +31,12 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = Profile 
     template_name = 'profiles/profile.html'
 
-class SignupView(BSModalLoginView):
+class SignupView(View):
     """Users sign up view."""
 
     template_name = 'registration/register.html'
     form_class = SignupForm
     success_message = 'Registro completado. Ahora puede iniciar sesión.'
     success_url = reverse_lazy('index')
+
+

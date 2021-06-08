@@ -1,9 +1,8 @@
+# Django
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-
-from django.contrib.auth.models import User
-from .models import Profile
-# Register your models here.
+# App
+from .models import User, Profile
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -26,7 +25,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Profile', {
-            'fields': (('user', 'photo', 'displayname', 'is_public'),),
+            'fields': (('user', 'photo', 'displayname', 'is_public', 'bio'),),
         }),
         ('Extra info', {
             'fields': (('updated'),),

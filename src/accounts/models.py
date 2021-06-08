@@ -1,30 +1,35 @@
 # Django
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.conf import settings
+from django.urls import reverse
 # 3rd party
 from autoslug import AutoSlugField
-class Profile(models.Model):
-    """Profile model
 
+class User(AbstractUser):
+    is_musician = models.BooleanField(default=False)
+    is_group = models.BooleanField(default=False)
+    
+class Profile(models.Model):
+    """
     Proxy model that extends the base data with other information.
     """
     displayname = models.CharField(max_length=150, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
-    photo = models.ImageField(upload_to='profiles/', default='profiles/no_avatar.png', blank=True)
+    photo = models.ImageField(upload_to='avatars/', default='avatars/no_avatar.png', blank=True)
     location = models.CharField(max_length=25, blank=True, null=True)
     is_public = models.BooleanField(default=True)
-    slug = AutoSlugField(populate_from='displayname')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     user = models.OneToOneField(User, on_delete=models.PROTECT, related_name='profile')
+    slug = AutoSlugField(populate_from='user__username', unique=True)
 
     def __str__(self):
         return self.displayname
 
     def get_absolute_url(self):
-	    return f"/profile/{self.slug}"
+	    return reverse('users:profile-detail', kwargs={'slug': self.slug})
 
 def post_save_user_model_receiver(sender, instance, created, *args, **kwargs):
     if created:

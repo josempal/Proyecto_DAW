@@ -3,25 +3,30 @@
 {% block title %}Perfiles{% endblock %}
 
 {% block content %}
-    <h2>Resultados</h2>
-    {% for profile in object_list %}
-        <div class="row justify-content-center">
-            <ul class="list-group-horizontal" width="100%">
-                <div class="col-4">
-                    <li class="list-group-item">
-                        <img class="img-fluid" src="{{ profile.photo.url }}"/>
-                    </li>
+    <div class="container">
+        <h2>Resultados</h2>
+        {% for profile in object_list %}
+            <div class="row justify-content-center">
+                <div class="card col-12 col-md-6 col-lg-4">
+                    <img class="img-fluid card-img-top" src="{{ profile.photo.url }}"/>
+                   
+                    <div class="card-body">
+                        <h4 class="card-text">{{ profile.displayname }}</h4>
+                        <span><a href="{{ profile.get_absolute_url }}">Ver perfil</a></span>
+                    </div>
                 </div>
-                <div class="col-8">
-                    <li class="list-group-item">
-                        <a href="{{ profile.get_absolute_url }}">{{ profile.displayname }}</a>
-                    </li>
-                    {% if profile.bio is None %}
-                        <li class="list-group-item"></li>
-                    {% endif %}
-                </div>
-            </ul>
-        </div>
-    {% endfor %}
+                <div class="col-12 col-md-6 col-lg-8">
+                    <ul class="list-unstyled">
+                        <li>Bio: 
+                        {% if profile.bio %}
+                            {{ profile.bio }}
+                        {% endif %}
+                        </li>
+                        
+                    </div>
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

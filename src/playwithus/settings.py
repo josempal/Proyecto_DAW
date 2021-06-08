@@ -43,13 +43,11 @@ INSTALLED_APPS = [
     # My apps
     'comments',
     'instruments',
-    'users',
+    'accounts',
     'experiences',
     'mails',
     
-     # 3d party apps
-    'bootstrap4',
-    'bootstrap_modal_forms'
+    # 3d party apps
 ]
 
 MIDDLEWARE = [
@@ -82,6 +80,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'playwithus.wsgi.application'
 
+AUTH_USER_MODEL = 'accounts.User'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -147,4 +146,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # Login 
 
 LOGIN_URL = '/login/'
+#LOGIN_REDIRECT_URL = 'users:my-profile'
+#LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = '/'

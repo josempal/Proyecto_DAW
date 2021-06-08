@@ -5,10 +5,9 @@
         <div class="col-lg-8 mx-auto">
         <img class="img-fluid" src="{{ object.photo.url }}"/>
         <h2>{{ object.displayname }}
-        {% if object.bio is None %}
             <p>Bio:</p>
-        {% else %}
-            <p>Bio: {{ object.bio }}</p>
+        {% if object.bio %}
+            <p>{{ object.bio }}</p>
         {% endif %}
         </div>
     </div>

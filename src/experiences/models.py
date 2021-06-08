@@ -1,13 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import Profile
 
 class Experience(models.Model):
 
     TYPE = (
         ('CURSO', 'Curso'),
-        ('ENSEÑANZA ELEMENTAL', 'Enseñanza elemental'),
-        ('ENSEÑANZA PROFESIONAL', 'Enseñanza profesional'),
-        ('GRADO', 'Grado'),
+        ('PROFESIONAL', 'Profesional'),
         ('ARTISTICA', 'Artistica'),
         ('OTRO', 'Otro')
     )
@@ -24,11 +22,12 @@ class Experience(models.Model):
 
     center = models.CharField(max_length=200, null=True, blank=True)
     group = models.CharField(max_length=200, null=True, blank=True)
-    type = models.CharField(max_length=150, choices=TYPE)
-    duration = models.CharField(max_length=150, choices=DURATION)
+    type = models.CharField(max_length=50, choices=TYPE)
+    duration = models.CharField(max_length=50, choices=DURATION)
+    observations = models.CharField(max_length=255, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    creator = models.ForeignKey(User, on_delete=models.PROTECT, related_name='experiences')
+    creator = models.ForeignKey(Profile, on_delete=models.PROTECT, related_name='experiences')
 
     class Meta:
 

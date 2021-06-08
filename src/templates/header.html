@@ -20,10 +20,10 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#" id="register">Inicia sesión</a>
+                        <a class="nav-link" href="{% url 'users:login' %}" id="login">Inicia sesión</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" id="login">Regístrate</a>
+                        <a class="nav-link" href="{% url 'users:register' %}" id="register">Regístrate</a>
                     </li>
                 {% endif %}
             </ul>

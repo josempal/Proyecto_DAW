@@ -1,0 +1,51 @@
+<div class="bg-dark text-white">
+  <footer class="">
+    <div class="row mx-auto"> 
+      
+      <div class="col-12 col-md d-md-flex flex-column align-items-center justify-content-center">
+        <h3>PLAYWITHUS</h3>
+        <p class="text-muted mb-3"><small>Todos los derechos reservados &copy</small></p>
+      </div>
+      
+      <div class="col-12 col-md d-md-flex align-items-center justify-content-center">
+        <ul class="list-unstyled">
+          <li class="pb-2">
+            <a href="#">Inicio</a>
+          </li>
+          {% if user.is_authenticated %}
+            <li class="pb-2">
+              <a href="#">Perfil</a>
+            </li>
+            <li class="pb-2">
+              <a href="#">Mensajes</a>
+            </li>
+            <li class="pb-2">
+              <a href="#">Busca y descubre</a>
+            </li>
+          {% else %}
+            <li class="pb-2">
+              <a href="#">Iniciar sesión</a>
+            </li>
+            <li class="pb-2">
+              <a href="#">Regístrate</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="col-12 col-md d-flex justify-content-center align-items-center pt-3 pt-md-0">
+        <p class="text-right">
+          <a href="https://facebook.com/" class="social-round-icon black-round-icon fa-icon" title="">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+          </a>
+          <a href="https://twitter.com/" class="social-round-icon white-round-icon fa-icon" title="">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+          </a>
+          <a href="https://www.instagram.com/" class="social-round-icon white-round-icon fa-icon" title="">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+</div>

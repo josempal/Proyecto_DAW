@@ -7,7 +7,7 @@
             <ul class="nav navbar-nav">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cerrar sesión</a>
+                        <a class="nav-link" href="{% url 'accounts:logout' %}">Cerrar sesión</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Perfil</a>
@@ -16,14 +16,13 @@
                         <a class="nav-link" href="#">Mensajes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:profiles-list' %}">Busca y descubre</a>
+                        <a class="nav-link" href="{% url 'accounts:profiles-list' %}">Busca y descubre</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:login' %}" id="login">Inicia sesión</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users:register' %}" id="register">Regístrate</a>
+                        <a class="nav-link" data-toggle="modal" data-target="#myModal">
+                            Inicia sesión / Regístrate
+                        </a>
                     </li>
                 {% endif %}
             </ul>

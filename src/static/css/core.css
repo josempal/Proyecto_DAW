@@ -22,7 +22,7 @@ footer a, header a {
     color: rgb(224, 224, 224);
 }
 
-.fa {
+.fa-icon {
 
     font-size: 30px;
     width: 50px;
@@ -33,4 +33,9 @@ footer h3 {
 
     font-family: 'Montserrat', sans-serif;
     color: rgb(224, 224, 224);
+}
+
+li {
+
+    font-family: 'Montserrat', sans-serif;
 }

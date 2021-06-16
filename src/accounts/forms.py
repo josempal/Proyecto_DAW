@@ -25,6 +25,13 @@ class LoginForm(AuthenticationForm):
             }   
     ))
 
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField(max_length=254, help_text='Obligatorio. El email debe existir')
+
+    class Meta:
+        model = User
+        fields = ( 'first_name', 'last_name', 'email', 'password1', 'password2', )
+"""
 class SignupForm(forms.Form):
 
     username = forms.CharField(
@@ -69,3 +76,4 @@ class SignupForm(forms.Form):
             {'class': 'form-control', 'placeholder': 'Contraseña'})
         self.fields['password2'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'Repite la contraseña'})
+"""

@@ -5,11 +5,14 @@ class Instrument(models.Model):
 
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=200, null=True, blank=True)
-    instrumentalists = models.ManyToManyField(Profile, through='InstrumentUser', related_name='instruments', db_table='instrument_user'),
+    instrumentalists = models.ManyToManyField(Profile, through='InstrumentUser', related_name='instruments',)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True) 
 
-class IntrumentUser(models.Model):
+    def __str__(self):
+        return self.name    
+
+class InstrumentUser(models.Model):
 
     LEVELS = (
         ('PRINCIPIANTE', 'Principiante'),
@@ -22,6 +25,9 @@ class IntrumentUser(models.Model):
         ('MASTER', 'Máster')
     )
 
-    profile = models.ForeignKey(Profile)
-    instrument = models.ForeignKey(Instrument)
+    profile = models.ForeignKey(Profile, on_delete=models.DO_NOTHING,)
+    instrument = models.ForeignKey(Instrument,on_delete=models.DO_NOTHING,)
     level = models.CharField(max_length=50, choices=LEVELS)
+
+    def __str__(self):
+        return f"{self.profile.displayname} - {self.instrument.name} | {self.level}"

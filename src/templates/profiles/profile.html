@@ -1,15 +1,79 @@
 {% extends 'base.html' %}
 {% block title %}Perfil{% endblock %}
 {% block content %}
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
-        <img class="img-fluid" src="{{ object.photo.url }}"/>
-        <h2>{{ object.displayname }}
-            <p>Bio:</p>
-        {% if object.bio %}
-            <p>{{ object.bio }}</p>
-        {% endif %}
+    <div class="container">
+        <div class="row mx-auto">
+            <div class="d-flex justify-content-center">
+                <div class="col-lg-4 col mx-auto">
+                    <img class="img-fluid" src="{{ object.photo.url }}"/>
+                    <h2 class="d-inline">{{ object.displayname }}</h2>
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                </div>
+                <div class="col col-lg-4">
+                        <p>Bio:</p>
+                    {% if object.bio %}
+                        <p>{{ object.bio }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row mx-autor">
+            <div class="d-flex justify-content-center">
+                <div class="col col-lg-8">
+                    <h4>Instrumentos:
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Instrumento</th>
+                                    <th scope="col">Nivel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for object in profile.instrumentuser_set.all%}
+                                <tr>
+                                    <th scope="row"></th>
+                                    <td>{{ object.instrument.name}} </td>
+                                    <td>{{ object.get_level_display }}</td>
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mx-auto">
+            <div class="col col-lg-8">
+                <h4>Experiencia:          
+                    {% for object in profile.experiences.all %}
+                        <ul class="list-group">
+                            {% if object.center %}
+                                <li class="list-group-item">Centro:   {{ object.center }}</li>
+                            {% endif %}
+                            {% if object.group %}
+                                <li class="list-group-item">Grupo:  {{ object.group }}</li>
+                            {% endif %}
+                            {% if object.type %}
+                                <li class="list-group-item">Tipo:   {{ object.get_type_display }}</li>
+                            {% endif %}
+                            {% if object.duration %}
+                                <li class="list-group-item">Duración:   {{ object.get_duration_display }}</li>
+                            {% endif %}
+                            {% if object.observations %}
+                                <li class="list-group-item">Observaciones:   {{ object.observations }}</li>
+                            {% endif %}
+                        </ul>
+                        <hr>
+                    {% endfor %}
+                    
+                        </tbody>
+                    </table>
+                </h4>
+            </div>
         </div>
     </div>
-
 {% endblock %}

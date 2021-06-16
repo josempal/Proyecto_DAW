@@ -5,7 +5,7 @@
 {% block content %}
     <div class="container">
         <h2>Resultados</h2>
-        {% for profile in object_list %}
+        {% for profile in profile_list %}
             <div class="row justify-content-center">
                 <div class="card col-12 col-md-6 col-lg-4">
                     <img class="img-fluid card-img-top" src="{{ profile.photo.url }}"/>
@@ -21,6 +21,27 @@
                         {% if profile.bio %}
                             {{ profile.bio }}
                         {% endif %}
+                        </li>
+                        <li>Instrumentos:
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Instrumento</th>
+                                        <th scope="col">Nivel</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for object in profile.instrumentuser_set.all%}
+                                    <tr>
+                                        <th scope="row"></th>
+                                        <td>{{ object.instrument.name}} </td>
+                                        <td>{{ object.get_level_display }}</td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                             </table>
                         </li>
                         
                     </div>

@@ -25,10 +25,10 @@ class ProfileAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Profile', {
-            'fields': (('user', 'photo', 'displayname', 'is_public', 'bio'),),
+            'fields': (('user', 'displayname', 'is_public', 'bio'),),
         }),
         ('Extra info', {
-            'fields': (('updated'),),
+            'fields': (('updated', 'location', 'photo'),),
         })
     )
 
@@ -44,17 +44,33 @@ class ProfileInline(admin.StackedInline):
 
 class UserAdmin(BaseUserAdmin):
     """Add profile admin to base user admin."""
-
-    inlines = (ProfileInline,)
+    model = User
     list_display = (
-        'username',
-        'email',
-        'first_name',
-        'last_name',
-        'is_active',
-        'is_staff',
+        'email', 
+        'is_staff', 
+        'is_active',)
+    list_filter = (
+        'email', 
+        'is_staff', 
+        'is_active',)
+    fieldsets = (
+        ('User', {
+            'fields': ('email', 'password')
+        }),
+        ('Permissions', {
+            'fields': ('is_staff', 'is_active')
+        }),
     )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2', 'is_staff', 'is_active')}
+        ),
+    )
+    search_fields = ('email',)
+    ordering = ('email',)
+    inlines = (ProfileInline,)
 
 
-admin.site.unregister(User)
+
 admin.site.register(User, UserAdmin)

@@ -27,7 +27,7 @@ class Experience(models.Model):
     observations = models.CharField(max_length=255, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    creator = models.ForeignKey(Profile, on_delete=models.PROTECT, related_name='experiences')
+    creator = models.ForeignKey(Profile, on_delete=models.DO_NOTHING, related_name='experiences')
 
     class Meta:
 

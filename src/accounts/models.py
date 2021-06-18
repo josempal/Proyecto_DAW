@@ -53,8 +53,10 @@ class User(AbstractUser):
     User model with email as username
     """
     username = None
+    first_name= models.CharField(null=True, blank=True, max_length=100)
+    last_name = models.CharField(null=True, blank=True, max_length=100)
     email = models.EmailField(_('email address'), unique=True)
-    is_musician = models.BooleanField(default=False)
+    date_of_birth = models.DateField(null=True, blank=True)
     is_group = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'

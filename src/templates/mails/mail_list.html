@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block title %}Mensajes{% endblock %}
+{% load static %}
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/mail_list.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body bg-custom text-white mailbox-widget pb-0">
+                    <h2 class="text-white pb-3">Tus mensajes</h2>
+                    <ul class="nav nav-tabs custom-tab border-bottom-0 mt-4" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="inbox-tab" data-toggle="tab" aria-controls="inbox" href="#inbox" role="tab" aria-selected="true">
+                                <span class="d-block">Todos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="sent-tab" data-toggle="tab" aria-controls="sent" href="#sent" role="tab" aria-selected="false">
+                                <span class="d-block">Enviados</span>
+                            </a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link" id="unread-tab" data-toggle="tab" aria-controls="unread" href="#unread" role="tab" aria-selected="false">
+                                <span class="d-block">Sin leer</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show" id="inbox" aria-labelledby="inbox-tab" role="tabpanel">
+                        
+                        <div class="row p-4 no-gutters align-items-center">
+                            <div class="col-sm-12 col-md-6">
+                                <h3 class="font-light mb-0"><i class="ti-email mr-2"></i>Mensajes recibidos</h3>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <ul class="list-inline dl mb-0 float-left float-md-right">
+                                    <li class="list-inline-item text-info mr-3 my-3 my-md-0">
+                                        <a href="#">
+                                            <button class="btn btn-circle btn-success text-white" href="javascript:void(0)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <span class="ml-2 font-normal text-dark">Marcar como leídos</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                            <!-- Mail list-->
+                        <div class="table-responsive">
+                            <table class="table email-table no-wrap table-hover v-middle mb-0 font-14">
+                                <tbody>
+                                    <!-- row -->
+                                    {% for mail in mail_list%}
+                                        
+                                        <tr>
+                                        
+                                            <!-- delete -->
+                                            <td class="pl-3">
+                                                <form action="{% url 'mails:delete' pk=mail.pk %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button class="btn btn-circle btn-danger text-white" onclick="return confirm('¿Está seguro?')">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            <td>
+                                                <a class="link" href="{{ mail.get_absolute_url }}">
+                                                <span class="mb-0 text-muted">{{ mail.subject }}</span>
+                                                </a>
+                                            </td>
+                                            <!-- Message -->
+                                            <td>
+
+                                                <a class="link" href="{{ mail.get_absolute_url }}">                                    
+                                                <span class="text-dark">{{ mail.body|truncatewords:5 }}</span>
+                                                </a>
+                                            </td>
+                                            <!-- Time -->
+                                            <td class="text-muted">{{ mail.readable_date }}</td>
+                                            
+                                        </tr>
+                                        
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                    <div class="tab-pane fade" id="sent" aria-labelledby="sent-tab" role="tabpanel">
+                       <div class="row p-4 no-gutters align-items-center">
+                            <div class="col-sm-12 col-md-6">
+                                <h3 class="font-light mb-0"><i class="ti-email mr-2"></i>Mensajes enviados</h3>
+                            </div>
+                             
+                        </div>
+                            <!-- Mail list-->
+                        <div class="table-responsive">
+                            <table class="table email-table no-wrap table-hover v-middle mb-0 font-14">
+                                <tbody>
+                                    <!-- row -->
+                                    {% for mail in sent%}
+                                        
+                                        <tr>
+                                        
+                                            <!-- label -->
+                                            <td class="pl-3">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="cst1" />
+                                                    <label class="custom-control-label" for="cst1">&nbsp;</label>
+                                                </div>
+                                            <td>
+                                                <a class="link" href="{{ mail.get_absolute_url }}">
+                                                <span class="mb-0 text-muted">{{ mail.subject }}</span>
+                                                </a>
+                                            </td>
+                                            <!-- Message -->
+                                            <td>
+                                                <a class="link" href="{{ mail.get_absolute_url }}">                                    
+                                                <span class="text-dark">{{ mail.body|truncatewords:5 }}</span>
+                                                </a>
+                                            </td>
+                                            <!-- Time -->
+                                            <td class="text-muted">{{ mail.readable_date }}</td>
+                                            
+                                        </tr>
+                                        
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="unread" aria-labelledby="unread-tab" role="tabpanel">
+                        <div class="row p-4 no-gutters align-items-center">
+                            <div class="col-sm-12 col-md-6">
+                                <h3 class="font-light mb-0"><i class="ti-email mr-2"></i>Mensajes recibidos</h3>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <ul class="list-inline dl mb-0 float-left float-md-right">
+                                    <li class="list-inline-item text-info mr-3 my-3 my-md-0">
+                                        <a href="#">
+                                            <button class="btn btn-circle btn-success text-white" href="javascript:void(0)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <span class="ml-2 font-normal text-dark">Marcar como leídos</span>
+                                        </a>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                            <!-- Mail list-->
+                        <div class="table-responsive">
+                            <table class="table email-table no-wrap table-hover v-middle mb-0 font-14">
+                                <tbody>
+                                    <!-- row -->
+                                    {% for mail in unread%}
+                                        
+                                        <tr>
+                                        
+                                            <!-- delete -->
+                                            <td class="pl-3">
+                                                <form action="#" method="post">
+                                                    {% csrf_token %}
+                                                    <button class="btn btn-circle btn-danger text-white" href="javascript:void(0)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            <td>
+                                                <a class="link" href="{{ mail.get_absolute_url }}">
+                                                <span class="mb-0 text-muted">{{ mail.subject }}</span>
+                                                </a>
+                                            </td>
+                                            <!-- Message -->
+                                            <td>
+                                                <a class="link" href="{{ mail.get_absolute_url }}">                                     
+                                                <span class="text-dark">{{ mail.body|truncatewords:5 }}</span>
+                                                </a>
+                                            </td>
+                                            <!-- Time -->
+                                            <td class="text-muted">{{ mail.readable_date }}</td>
+                                            
+                                        </tr>
+                                        
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}

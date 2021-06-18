@@ -2,6 +2,19 @@
 
 body {
     padding-top: 56px;
+    font-family: 'Exo', sans-serif !important;
+    background: #e2e8f0;
+    margin-top:20px;
+}
+
+header {
+
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+footer {
+
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 .navbar-brand {
@@ -18,8 +31,16 @@ body {
 footer a, header a {
 
     text-align: center;
-    text-decoration: none;
+    text-decoration: none !important;
+    color: rgb(224, 224, 224) !important;
+}
+
+footer small {
     color: rgb(224, 224, 224);
+}
+footer a:hover, header a:hover {
+
+    color: rgba(193, 206, 221, 0.13) !important;
 }
 
 .fa-icon {
@@ -35,7 +56,12 @@ footer h3 {
     color: rgb(224, 224, 224);
 }
 
-li {
+footer li {
 
     font-family: 'Montserrat', sans-serif;
+}
+
+.bg-custom {
+    
+    background-color: #044e99;
 }

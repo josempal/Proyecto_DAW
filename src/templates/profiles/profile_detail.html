@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% block title %}Perfil{% endblock %}
+{% load static %}
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/profile_detail.css' %}">
+{% endblock %}
+{% block content %}
+      <div class="container">
+        <div class="main-body">
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="{{ profile.photo.url}}" alt="avatar" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4>{{ profile.displayname }}</h4>
+                      <p class="text-secondary mb-3">
+                      {% if profile.location %}
+                      {{ profile.location }}</p>
+                      {% else %}
+                      Ciudad sin definir</p>
+                      {% endif %}                     
+                      <form action="{% comment %} {% url 'mails:create' pk=user.id %} {% endcomment %}" method="post">
+                          {% csrf_token %}
+                          <button class="btn btn-circle bg-custom text-white">
+                              <i class="fa fa-envelope-open"></i>
+                          </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Nombre completo</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ profile.user.first_name }} {{ profile.user.last_name }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ profile.user.email }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Ciudad</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {% if profile.location %}
+                        {{ profile.location }}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Fecha de nacimiento</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {% if profile.user.date_of_birth %}
+                        {{ profile.user.date_of_birth }}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Bio</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {% if profile.bio %}
+                        {{ profile.bio}}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <hr>
+                  {% if profile.user.email == request.user.email %}
+                    <div class="row">
+                      <div class="col-sm-12 edit-icon">
+                        <button class="btn btn-circle bg-custom text-white">
+                          <i class="fa fa-edit"></i>
+                        </button>
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row gutters-sm">
+            <div class="col-sm-6 mb-3">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="row">
+                      <div class="col-sm-10">
+                        <h6 class="d-flex align-items-center mb-3">Instrumentos</h6>
+                      </div>
+                      {% if profile.user.email == request.user.email %}
+                        <div class="col-sm-2 mb-2">
+                          <button class="btn btn-circle btn-success text-white">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </div>
+                      {% endif %}
+                  </div>
+                  {% for object in profile.instrumentuser_set.all%}
+                    <div class="">
+                      <p class="d-block">{{ object.instrument.name }}</p>
+                      <small>{{ object.get_level_display }}</small>
+                      <hr/>
+                    </div>  
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 mb-3">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="row">
+                      <div class="col-sm-10">
+                        <h6 class="d-flex align-items-center mb-3">Experiencia</h6>
+                      </div>
+                      {% if profile.user.email == request.user.email %}
+                        <div class="col-sm-2 mb-2">
+                          <button class="btn btn-circle btn-success text-white">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </div>
+                      {% endif %}
+                  </div>
+                  {% for object in profile.experiences.all %}
+                    <ul class="list-group">
+                    
+                        {% if object.center %}
+                        <li class="list-group-item"><b>Centro</b>      {{ object.center }}</li>
+                        {% endif %}
+                        {% if object.group %}
+                            <li class="list-group-item"><b>Grupo</b>      {{ object.group }}</li>
+                        {% endif %}
+                        {% if object.type %}
+                            <li class="list-group-item"><b>Tipo:</b>      {{ object.get_type_display }}</li>
+                        {% endif %}
+                        {% if object.duration %}
+                            <li class="list-group-item"><b>Duración</b>      {{ object.get_duration_display }}</li>
+                        {% endif %}
+                        {% if object.observations %}
+                            <li class="list-group-item"><b>Observaciones</b>      {{ object.observations }}</li>
+                        {% endif %}
+                    </ul>
+                    <hr>
+                  {% endfor %}
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+          {% for comment in profile.comments_received.all%}
+            <div class="row gutters-sm">
+              <div class="col-sm-12 mb-3">
+                <div class="card h-100">
+                  <div class="card-body"> 
+                    <div class="media">
+                      <div class="img-fluid">
+                        <img class="mr-3" style="width:50px;height:50px;" src="{{ comment.creator.photo.url }}" alt="avatar">
+                      </div>
+                      <div class="media-body">
+                        <h5 class="mt-0">{{ comment.creator.displayname }}</h5>
+                        <p>{{ comment.body }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> 
+          {% endfor %}
+        </div>
+    </div>
+  
+{% endblock %}

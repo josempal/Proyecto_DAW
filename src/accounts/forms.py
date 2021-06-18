@@ -27,10 +27,10 @@ class LoginForm(AuthenticationForm):
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Obligatorio. El email debe existir')
-
+    
     class Meta:
         model = User
-        fields = ( 'first_name', 'last_name', 'email', 'password1', 'password2', )
+        fields = ( 'first_name', 'last_name', 'email', 'password1', 'password2', 'is_group')
 """
 class SignupForm(forms.Form):
 

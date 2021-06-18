@@ -11,40 +11,65 @@ from django.contrib.auth import authenticate, login
 # App
 from .forms import SignUpForm
 from .models import Profile
+from .filters import ProfileFilter
 # 3rd party
 import json
+from django_filters.views import FilterView
 
-class ProfileListView(LoginRequiredMixin, ListView):
+from django.views.generic import ListView
+
+""" class SimpleFilteringListView(ListView):
+    
+    List view with extra filtering and grouping in context data.
+    ``filters`` dict is created as follows: {'context_variable_name', 'filtering_object_method_name'}
+    It calls filtering method on each object in object_list and if it returns True - this object is added
+    to proper context variable.
+    
+    filters = {}
+
+    def get_filtered_data(self):
+        filtered_data = {}
+
+        if self.filters:
+            for obj in self.object_list:
+                for filter_name in self.filters:
+                    filter_func = getattr(obj, self.filters[filter_name])
+                    filter_list = filtered_data.get(filter_name, [])
+                    if filter_func():
+                        filter_list.append(obj)
+                        filtered_data[filter_name] = filter_list
+
+        return filtered_data
+
+    def get_context_data(self, **kwargs):
+        context = super(SimpleFilteringListView, self).get_context_data(**kwargs)
+        context.update(self.get_filtered_data())
+        return context """
+
+class ProfileListView(LoginRequiredMixin, FilterView):
     """
     Retrieves profiles marked as public and
     ordered by amount of comments received
     """
     model = Profile 
     template_name = 'profiles/profile_list.html'
-    
-    """ queryset = Profile.objects.filter(is_public=True) \
+    paginate_by = 10
+    filterset_class = ProfileFilter
+
+    def get_queryset(self):
+        query = self.model.objects.filter(user__is_staff=False, is_public=True) \
                     .prefetch_related('instruments') \
                     .annotate(num_comments=Count('comments_received')) \
                     .annotate(num_experiences=Count('experiences')) \
-                    .order_by('-num_comments', '-num_experiences') """
-
-    def get_queryset(self):
-        query = self.model.objects.exclude(user__is_staff=True, id=self.request.user.id)
+                    .order_by('-num_comments', '-num_experiences')
         return query
+
+    
 class ProfileDetailView(LoginRequiredMixin, DetailView):
 
     model = Profile 
-    template_name = 'profiles/profile.html'
+    template_name = 'profiles/profile_detail.html'
     context_object_name = 'profile'
-""" class SignupView(View):
-    Users sign up view
-
-    template_name = 'registration/register.html'
-    form_class = SignupForm
-    success_message = 'Registro completado. Ahora puede iniciar sesión.'
-    success_url = reverse_lazy('index') """
-
-
 
 def Login(request):
 
@@ -71,24 +96,27 @@ def Login(request):
 	    return HttpResponse(json.dumps({"message": "denied"}),content_type="application/json")
 
 def SignUp(request):
-	if request.user.is_authenticated:
-		return redirect('/')
-	if request.method == 'POST':
-		fname = request.POST.get('first_name')
-		lname = request.POST.get('last_name')
-		email = request.POST.get('email')
-		password1 = request.POST.get('password1')
-		password2 = request.POST.get('password2')
-		data = {'first_name':fname, 'last_name':lname, 'email':email, 'password2':password2, 'password1':password1}
-		form = SignUpForm(data=data)
-		if form.is_valid():
-			user = form.save(commit=False)
-			user.is_active = True
-			user.save()
-			return HttpResponse(json.dumps({"message": "Success"}),content_type="application/json")
-		else:
-			return HttpResponse(json.dumps({"message":form.errors}),content_type="application/json")
-	else:
-		form = SignUpForm()
-	return HttpResponse(json.dumps({"message": "Denied"}),content_type="application/json")
-	# return render(request, 'registration/signup.html', {'form':form})
+    if request.user.is_authenticated:
+	    return redirect('/')
+
+    if request.method == 'POST':
+        fname = request.POST.get('first_name')
+        lname = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        is_group = request.POST.get('is_group')
+        data = {'first_name':fname, 'last_name':lname, 'email':email, 'password2':password2, 'password1':password1, 'is_group': is_group}
+        form = SignUpForm(data=data)
+        if form.is_valid():
+            user = form.save(commit=False)
+            if user.is_group:
+                user.is_active = False
+            else:
+                user.is_active = True
+            user.save()
+            return HttpResponse(json.dumps({"message": "Success"}),content_type="application/json")
+        else:
+            return HttpResponse(json.dumps({"message":form.errors}),content_type="application/json")
+    else:
+            form = SignUpForm()

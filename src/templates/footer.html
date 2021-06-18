@@ -1,29 +1,29 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-<div class="bg-dark text-white">
+<div class="bg-custom text-white">
   <footer class="">
     <div class="row mx-auto"> 
       
-      <div class="col-12 col-md d-md-flex flex-column align-items-center justify-content-center">
+      <div class="col-12 col-md d-flex flex-column align-items-center justify-content-center pt-2">
         <h3>PLAYWITHUS</h3>
-        <p class="text-muted mb-3"><small>Todos los derechos reservados &copy</small></p>
+        <p class="mb-3"><small>Todos los derechos reservados &copy</small></p>
       </div>
       
       <div class="col-12 col-md d-md-flex align-items-center justify-content-center">
         <ul class="list-unstyled">
-          <li class="pb-2 pt-2">
-            <a href="#">Inicio</a>
+          <li class="pb-2 pt-4">
+            <a href="{% url 'index' %}">Inicio</a>
           </li>
           {% if user.is_authenticated %}
             <li class="pb-2">
-              <a href="#">Perfil</a>
+              <a href="{{ user.get_absolute_url }}">Perfil</a>
             </li>
             <li class="pb-2">
-              <a href="#">Mensajes</a>
+              <a href="{% url 'mails:mails-list' %}">Mensajes</a>
             </li>
             <li class="pb-2">
-              <a href="#">Busca y descubre</a>
+              <a href="{% url 'accounts:profiles-list' %}">Busca y descubre</a>
             </li>
           {% else %}
             <li class="pb-2">
@@ -37,7 +37,6 @@
       </div>
 
       <div class="col-12 col-md d-flex justify-content-center align-items-center pt-3 pt-md-0">
-        <p class="text-right">
           <a href="https://facebook.com/" class="social-round-icon black-round-icon fa-icon" title="">
             <i class="fab fa-facebook" aria-hidden="true"></i>
           </a>
@@ -47,7 +46,7 @@
           <a href="https://www.instagram.com/" class="social-round-icon white-round-icon fa-icon" title="">
             <i class="fab fa-instagram" aria-hidden="true"></i>
           </a>
-        </p>
+        
       </div>
     </div>
   </footer>

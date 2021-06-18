@@ -1,53 +1,124 @@
 {% extends "base.html" %}
-
 {% block title %}Perfiles{% endblock %}
-
+{% load static %}
+{% load widget_tweaks %}
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/profile_detail.css' %}">
+{% endblock %}
 {% block content %}
     <div class="container">
-        <h2>Resultados</h2>
-        {% for profile in profile_list %}
-            <div class="row justify-content-center">
-                <div class="card col-12 col-md-6 col-lg-4">
-                    <img class="img-fluid card-img-top" src="{{ profile.photo.url }}"/>
-                   
+        <div class="row">
+            <div class="col-md-3">
+                <h4>Opciones de filtrado</h4>
+                <form method="get">
+                    <div class="form-group row no-gutters">
+                        <h6>Nombre</h6>
+                        <div class="col-10">
+                            {% render_field filter.form.displayname class="form-control" %}
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" href="{% url 'accounts:profiles-list' %}" class="btn btn-circle bg-custom text-white">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            {% render_field filter.form.user__is_group class="form-control" %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row no-gutters">
+                        <h6>Instrumento</h6>
+                        <div class="col-10">
+                            {% render_field filter.form.instruments__name class="form-control" %}
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-circle bg-custom text-white">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="col-md-9 col-md-3">
+                <div class="card">
                     <div class="card-body">
-                        <h4 class="card-text">{{ profile.displayname }}</h4>
-                        <span><a href="{{ profile.get_absolute_url }}">Ver perfil</a></span>
+                        {% for profile in profile_list %}
+                        <section class="search-result-item">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <a class="image-link" href="{{ profile.get_absolute_url }}">
+                                        <img class="image" style="width:300px;height:300px;"src="{{ profile.photo.url }}">
+                                    </a>
+                                </div>
+                                <div class="col-lg-6 pt-2">
+                                    {% for object in profile.instrumentuser_set.all%}
+                                        <div class="">
+                                        <p class="d-block">{{ object.instrument.name }}</p>
+                                        <small>{{ object.get_level_display }}</small>
+                                        <hr/>
+                                        </div>  
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="search-result-item-body">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <h4 class="search-result-item-heading mt-2"><a href="{{ profile.get_absolute_url }}">{{ profile.displayname }}</a></h4>
+                                        {% if profile.location %}
+                                            <p class="info">{{ profile.location }}</p>
+                                        {% else %}
+                                            <p class="info">Ciudad</p>
+                                        {% endif %}
+                                        {% if profile.bio %}
+                                            <p class="description">{{ profile.bio }}</p>
+                                        {% else %}
+                                            <br><br>
+                                        {% endif %}
+                                    
+                                    </div>
+                                    <div class="col-sm-3 text-align-center">
+                                        <a class="btn btn-primary bg-custom btn-sm" href="{{ profile.get_absolute_url }}">Ver perfil</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        {% endfor %}
+                        <div class="row">
+                            <nav>
+                                {% if is_paginated %}
+                                    <ul class="pagination">
+                                        {% if page_obj.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% for i in paginator.page_range %}
+                                            <li class="page-item" {% if page_obj.number == i %} class="active" {% endif %}>
+                                                <a class="page-link" href="?page={{i}}">{{ i }}</a>
+                                            </li>
+                                        {% endfor %}
+
+                                        {% if page_obj.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                {% endif %}
+                            </nav>
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 col-lg-8">
-                    <ul class="list-unstyled">
-                        <li>Bio: 
-                        {% if profile.bio %}
-                            {{ profile.bio }}
-                        {% endif %}
-                        </li>
-                        <li>Instrumentos:
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">Instrumento</th>
-                                        <th scope="col">Nivel</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for object in profile.instrumentuser_set.all%}
-                                    <tr>
-                                        <th scope="row"></th>
-                                        <td>{{ object.instrument.name}} </td>
-                                        <td>{{ object.get_level_display }}</td>
-
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                             </table>
-                        </li>
-                        
-                    </div>
-                </ul>
             </div>
-        {% endfor %}
+        </div>
     </div>
 
 {% endblock %}

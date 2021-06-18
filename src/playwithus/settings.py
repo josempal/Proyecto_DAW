@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'mails',
     
     # 3d party apps
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

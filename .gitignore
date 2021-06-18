@@ -1,7 +1,7 @@
 # Django
 **/__pycache__
 *.pyc
-.env
+
 
 # Notas y otros
 notas.md
@@ -33,5 +33,5 @@ logs/
 *.pyc
 __pycache__
 db.sqlite3
-media
+
 mountain

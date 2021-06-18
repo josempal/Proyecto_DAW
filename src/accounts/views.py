@@ -18,33 +18,6 @@ from django_filters.views import FilterView
 
 from django.views.generic import ListView
 
-""" class SimpleFilteringListView(ListView):
-    
-    List view with extra filtering and grouping in context data.
-    ``filters`` dict is created as follows: {'context_variable_name', 'filtering_object_method_name'}
-    It calls filtering method on each object in object_list and if it returns True - this object is added
-    to proper context variable.
-    
-    filters = {}
-
-    def get_filtered_data(self):
-        filtered_data = {}
-
-        if self.filters:
-            for obj in self.object_list:
-                for filter_name in self.filters:
-                    filter_func = getattr(obj, self.filters[filter_name])
-                    filter_list = filtered_data.get(filter_name, [])
-                    if filter_func():
-                        filter_list.append(obj)
-                        filtered_data[filter_name] = filter_list
-
-        return filtered_data
-
-    def get_context_data(self, **kwargs):
-        context = super(SimpleFilteringListView, self).get_context_data(**kwargs)
-        context.update(self.get_filtered_data())
-        return context """
 
 class ProfileListView(LoginRequiredMixin, FilterView):
     """

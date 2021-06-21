@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY= os.environ.get('SECRET_KEY')
+SECRET_KEY= 'k+b94*7@=7#)a8#@gv2+)u974+oy#m^^_m5n5dlqrnr8tp7fl$'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -89,15 +89,10 @@ AUTH_USER_MODEL = 'accounts.User'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'playwithus',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -157,8 +152,9 @@ LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = '/'
 
 
-# Heroku: Update database configuration from $DATABASE_URL.
-db_from_env = dj_database_url.config(conn_max_age=500)
+# Update database configuration with $DATABASE_URL.
+import dj_database_url  
+db_from_env = dj_database_url.config(conn_max_age=500)  
 DATABASES['default'].update(db_from_env)
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
